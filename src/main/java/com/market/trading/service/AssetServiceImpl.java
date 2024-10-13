@@ -39,11 +39,13 @@ public class AssetServiceImpl implements AssetService {
 
     @Override
     public Asset getAssetByUserIdAndId(Long userId, Long assetId) {
+
         return null;
     }
 
     @Override
     public List<Asset> getUserAssets(Long userId) {
+
         return assetRep.findByUserId(userId);
     }
 
@@ -56,7 +58,7 @@ public class AssetServiceImpl implements AssetService {
 
 
     }
-
+//changed from string to long
     @Override
     public Asset findAssetByUserIdAndCoinId(Long userId, String coinId) {
         return assetRep.findAssetByUserIdAndCoinId(userId, coinId);

@@ -28,14 +28,14 @@ public class AssetC {
         return ResponseEntity.ok().body(asset);
     }
 
-    @GetMapping("/coin/{coidId}/user")
-    public ResponseEntity<Asset> getAssetByUserIdAndId(
+    @GetMapping("/coin/{coinId}/user")
+    public ResponseEntity<Asset> getAssetByUserIdAndCoinId(
             @RequestHeader("Authorization") String jwt,
-            @PathVariable Long coidId
+            @PathVariable String coinId
     ) throws Exception {
 
         User user = userService.findUserProfileByJwt(jwt);
-        Asset asset = assetService.getAssetByUserIdAndId(user.getId(), coidId);
+        Asset asset = assetService.findAssetByUserIdAndCoinId(user.getId(), coinId);
         return ResponseEntity.ok().body(asset);
 
     }

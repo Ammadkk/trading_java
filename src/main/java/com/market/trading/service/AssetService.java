@@ -18,6 +18,8 @@ public interface AssetService {
 
     Asset updateAsset(Long assetId,double quantity) throws Exception;
 
+//    Asset findAssetByUserIdAndCoinId(Long userId, String coinId);
+
     Asset findAssetByUserIdAndCoinId(Long userId, String coinId);
 
     void deleteAsset(Long assetId);

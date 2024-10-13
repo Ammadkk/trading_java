@@ -39,6 +39,11 @@ public class OrderC {
             @RequestHeader("Authorization") String jwt,
             @RequestBody CreateOrderRequest req)
         throws Exception {
+
+        if (req.getCoinId() == null) {
+            throw new IllegalArgumentException("Coin ID must not be null");
+        }
+
         User user = userService.findUserProfileByJwt(jwt);
         Coin coin = coinService.findById(req.getCoinId());
 

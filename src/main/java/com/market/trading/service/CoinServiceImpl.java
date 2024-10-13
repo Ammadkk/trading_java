@@ -92,6 +92,9 @@ public class CoinServiceImpl implements CoinService {
 
             ResponseEntity<String> response= restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
 
+            // Log the entire response to verify the structure
+            System.out.println(response.getBody());
+
             JsonNode jsonNode = objectMapper.readTree(response.getBody());
 
             Coin coin = new Coin();
@@ -101,6 +104,17 @@ public class CoinServiceImpl implements CoinService {
             coin.setImage(jsonNode.get("image").get("large").asText());
 
             JsonNode marketData = jsonNode.get("market_data");
+
+            // Check and log the price change percentage 24H
+            JsonNode priceChangePercentage24HNode = marketData.get("price_change_percentage_24h");
+            if (priceChangePercentage24HNode != null && !priceChangePercentage24HNode.isNull()) {
+                System.out.println("Price Change Percentage 24H: " + priceChangePercentage24HNode.asDouble());
+                coin.setPriceChangePercentage24H(priceChangePercentage24HNode.asDouble());
+            } else {
+                System.out.println("Price Change Percentage 24H is not available");
+            }
+
+//            System.out.println("Price Change Percentage 24H: " + marketData.get("price_change_percentage_24h").asDouble());
 
             coin.setCurrentPrice(marketData.get("current_price").get("usd").asDouble());
             coin.setMarketCap(marketData.get("market_cap").get("usd").asLong());
@@ -123,6 +137,7 @@ public class CoinServiceImpl implements CoinService {
             return response.getBody();
         }
         catch (HttpClientErrorException | HttpServerErrorException e) {
+            e.printStackTrace();
             throw new Exception(e.getMessage());
         }
     }
